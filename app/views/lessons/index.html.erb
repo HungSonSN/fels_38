@@ -1,4 +1,12 @@
-<h1> Correct answer: </h1>
-<% @answers.each do |answer| %>
-  <p><%= answer.word.content %>:  <%= answer.content %></p>
-<% end  %>
+<h1>Correct answers:</h1>
+<div class="result">
+  <% if @answers.nil? %>
+    You don't have correct answer
+  <% else %>
+    <% @answers.each do |answer| %>
+      <% if answer.correct %>
+        <p><%= answer.word.content %>:  <%= answer.content %></p>
+      <% end %>
+    <% end  %>
+  <% end %>  
+</div>

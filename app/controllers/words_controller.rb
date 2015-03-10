@@ -9,7 +9,13 @@ class WordsController < ApplicationController
       @category = Category.find params[:id]
       @words = @category.words
     end
-    @words = @words.paginate page: params[:page] 
+    @words = @words.paginate page: params[:page]
+    @words_part1 = @words.slice(0, 15)
+    if @words.length > 15
+      @words_part2 = @words.slice(15, 15)
+    else
+      @words_part2 = []
+    end  
   end
 
   def new
@@ -21,9 +27,8 @@ class WordsController < ApplicationController
     @word = @category.words.new word_params
     if @word.save
       flash[:success]= "Add word success"
-      redirect_to words_path
-    else 
-      flash.now[:danger] = "Not add"
+      redirect_to controller: :words, action: :index, id: @word.category
+    else
       render 'new'
     end  
   end  
@@ -36,7 +41,7 @@ class WordsController < ApplicationController
     @word = Word.find params[:id]
     if @word.update_attributes word_params
       flash[:success] = "Update word success"
-      redirect_to words_url
+      redirect_to controller: :words, action: :index, id: @word.category
     else 
       render 'edit'
     end  
@@ -45,13 +50,13 @@ class WordsController < ApplicationController
   def destroy
     Word.find(params[:id]).destroy
     flash[:success] = "Delete success"
-    redirect_to words_url
+    redirect_to controller: :words, action: :index, id: @word.category
   end  
 
   private
   def word_params
     params.require(:word).permit :content, :meaning,
-      answers_attributes: [:id, :content, :_destroy]
+      answers_attributes: [:id, :content, :_destroy, :correct]
   end
     
   def get_category

@@ -1,11 +1,13 @@
 class LessonsController < ApplicationController
   def show
     @category = Category.find params[:id]
-    @lesson = Lesson.find_by category_id: params[:id]
+    @lesson = @category.lessons.sample
     if @lesson.nil?
+      flash[:danger] = "System don't have lesson in category.
+      Please chose different category"
       redirect_to categories_path
-    else  
-      @words = @category.words.all.sample 20
+    else
+      @words = @category.words.sample 20
     end
   end
 

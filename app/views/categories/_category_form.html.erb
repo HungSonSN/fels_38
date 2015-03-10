@@ -1,5 +1,5 @@
 <%= form_for(@category) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-  <%= f.text_field :name, placeholder: "Category name" %>
+  <%= f.text_field :name, placeholder: "Category name", class: "form-control" %>
   <%= f.submit "Create category", class: "btn btn-primary" %>
 <% end %>

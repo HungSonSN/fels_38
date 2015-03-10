@@ -1,8 +1,10 @@
 <tr class="word_row">
   <td><%= word.content %></td>    
   <td><%= word.meaning %></td>
-  <td>
-    <%= link_to "Edit", edit_word_path(word) %> / 
-    <%= link_to "Delete", word, method: :delete, data: {confirm: "You sure?"} %>
-  </td>
+  <% if current_user.admin? %>
+    <td>
+      <%= link_to "Edit", edit_word_path(word) %> / 
+      <%= link_to "Delete", word, method: :delete, data: {confirm: "You sure?"} %>
+    </td>
+  <% end %>  
 </tr>

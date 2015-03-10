@@ -4,19 +4,19 @@
   <div class="col-md-6 col-md-offset-3">
     <%= form_tag lessons_path(@lesson), method: :get do %>
       <% @words.each_with_index do |word, index| %>
-        <div class="question" id='question_<%= index+1 %>'>
-          <h1>Question <%= index+1 %>: <%= word.content %></h1>        
-          <% word.answers.order('RANDOM()').each_with_index do |answer,index| %>
-            <li class="answer-<%= index+1 %>" data-count="<%= answer.correct %>">        
+        <div class="question" id='question_<%= index + 1 %>'>
+          <h1>question <%= index + 1 %>: <%= word.content %></h1>
+          <% word.answers.order('RANDOM()').each do |answer| %><br>
+            <li class="answer" data-count="<%= answer.correct %>">
               <%= radio_button("result","#{word.id}", answer.id) %>
-              <%= answer.content %>            
+              <%= answer.content %>
             </li>
-          <% end %>
-          <button type="button" onclick="myFunction(<%= index+1 %>)"
-          id="next-<%= index+1 %>">Next</button>
-        </div>  
+          <% end %><br>
+          <button type="button" onclick="myFunction(<%= index + 1 %>)"
+          id="next-<%= index + 1 %>" class="next">Next</button>
+        </div>
       <% end %>
-      <%= submit_tag 'Submit', class: 'btn btn-primary' %>
+      <%= submit_tag 'Show result', class: 'btn btn-primary' %>
     <% end %>
   </div>
 </div>
@@ -27,18 +27,23 @@
     $(".question").hide();
     $(".question:first").show();
     $(".row input.btn").hide();
+    $(".next").hide();
   });
  
- $("li input").click(function(){
+  $("li input").click(function(){
     $(this).parent().children().removeClass("checked");
     $(this).addClass("checked");
+    $(".next").show();
+  });
+
+  $(".next").click(function(){
+    $(".next").hide();
   });
  
   $("#next-20").click(function()
   {
     count_correct = $('input.checked').parent('li[data-count="true"]').length;
     $(".row input.btn").show();
-    alert("Ban lam dung: "+count_correct+" cau");
   });
 
   function myFunction(id)
