@@ -1,8 +1,17 @@
 <% provide(:title, 'Word list') %>
 <div class="word_list">
-  <%= form_tag("", method: :get) do %>
-    <%= select_tag(:id, options_from_collection_for_select(Category.all.collect, "id", "name"), prompt: "All") %>
-    <%= submit_tag "filter" %>
+  <%= form_tag(words_path, method: :get) do |f| %>
+    <strong>Category:</strong>
+    <%= select_tag(:id, options_from_collection_for_select(
+              Category.all.collect, "id", "name"), 
+                prompt: "All", class: "form-control") %>
+    Learned:
+    <%= radio_button_tag 'learned', '1', @learned == 1 %>
+    Not learned:
+    <%= radio_button_tag 'learned', '0', @learned == 0 %>
+    All:
+    <%= radio_button_tag 'learned', '-1', @learned == -1 %>
+    <%= submit_tag "Filter", class: "btn btn-primary" %>
   <% end %>
 </div>
 <div class="show_word">
@@ -10,13 +19,47 @@
     <h1>All words</h1>
   <% else %>
     <h1><%= @category.name %></h1>
-  <% end %>  
-  <table>
-    <tr class="word_headings">
-      <th>Word</th>
-      <th>Meaning</th>
-    </tr>
-    <%= will_paginate %>
-    <%= render @words %>  
-  </table>  
+  <% end %> 
+  <% if current_user.admin? && !@category.nil? %>
+    <%= link_to "Add word", new_category_word_path(@category) %>
+  <% end %>
+  <div class="body-content">
+    <div class="body-left">
+      <div class="table-content">
+        <table>
+          <tr class="word_headings">
+            <th>Word</th>
+            <th>Meaning</th>
+            <% if current_user.admin? %>
+              <th>Action</th>
+            <% end %>
+          </tr>
+          <% @words_part1.each do |word| %>
+            <%= render word %>
+          <% end %>  
+        </table>
+      </div>
+    </div>
+    <div class="body-center">
+    </div>
+    <div class="body-right">
+      <div class="table-content">
+        <table>
+          <tr class="word_headings">
+            <th>Word</th>
+            <th>Meaning</th>
+            <% if current_user.admin? %>
+              <th>Action</th>
+            <% end %>
+          </tr>
+          <% @words_part2.each do |word| %>
+            <%= render word %>
+          <% end %>
+        </table>
+      </div>
+    </div>
+    <div class="clear"> 
+    </div>
+  </div>   
+  <%= will_paginate %>
 </div>
