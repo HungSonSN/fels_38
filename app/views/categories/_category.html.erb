@@ -1,5 +1,6 @@
 <li id="category-<%= category.id %>">
-  <div class="category-info"><span class="category_name"><%= category.name %></span>
+  <div class="category-info">
+    <%= link_to category.name, '#', class: "category_name" %>
     You've learned <%= category.learned_word?(current_user).count %>/
     <%= category.words.count %>
   </div>  

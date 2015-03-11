@@ -1,12 +1,19 @@
 <% provide(:title, "Category") %>
 <div class="row">
-  <h1>List all category</h1> 
-  <ul class="categories">
-    <%= render @categories %>
-  </ul>  
-  <%= will_paginate %>
-  <div class="category-form">
-    <span>Create new category</span>
-    <%= render 'category_form' if logged_in? && current_user.admin? %>
-  </div> 
-</div>  
+  <div class="col-md-8 col-md-offset-2">
+    <h1>List all category</h1>
+    <ul class="categories">
+      <% if logged_in? && current_user.admin? %>
+        <div class="admin-new-category">
+          <%= link_to "Create new category", '#', onclick: "show_category_form()",
+                                                         id: "display-form" %>
+          <div class="category-form">
+            <%= render 'category_form' %>
+          </div>
+        </div>
+      <% end %> 
+      <%= render @categories %>
+    </ul>  
+    <%= will_paginate %>
+  </div>
+</div> 
