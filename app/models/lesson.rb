@@ -12,5 +12,5 @@ class Lesson < ActiveRecord::Base
   def count_correct_answer
     self.results.select{|result| 
       result.answer.correct? unless result.answer.nil?}.count
-  end  
+  end
 end

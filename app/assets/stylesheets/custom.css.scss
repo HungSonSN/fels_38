@@ -475,6 +475,9 @@ span.picture {
 
 .list_lessons {
   margin-left: 20%;
+  span {
+    font-size: 20px;
+  }
   table {
     width: 100%;
     td {
@@ -516,4 +519,8 @@ span.picture {
   button {
     margin-left: 50px;
   }
+}
+
+.show_home {
+  margin-top: 20px;
 }

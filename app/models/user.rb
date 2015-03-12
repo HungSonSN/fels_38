@@ -69,7 +69,7 @@ class User < ActiveRecord::Base
     lessons.map(&:results).flatten.map(&:word).uniq
   end
 
-  def not_learned_words
+  def words_not_learned
     Word.all.select do |word|
       !learned_words.include? word
     end

@@ -1,7 +1,7 @@
 <% provide(:title, "Lessons") %>
 <h1>All lessons in category <%= @category.name %></h1>
 <div class="list_lessons">
-  <% if @lessons.nil? %>
+  <% if @lessons.count == 0 %>
     <span>You do not have any lesson in this category</span>
   <% else %>
     <table>

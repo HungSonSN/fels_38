@@ -10,9 +10,13 @@ class Category < ActiveRecord::Base
       map(&:results).flatten.map(&:word).uniq
   end
 
-  def words_not_learned_by user
+  def words_not_learned user
     Word.all.select{|lesson| lesson.category == self}.select do |word|
       !user.learned_words.include? word
     end
   end
+
+  def lessons_of user
+    user.lessons.select{|category| category == self}
+  end  
 end
