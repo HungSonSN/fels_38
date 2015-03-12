@@ -1,24 +1,41 @@
 class LessonsController < ApplicationController
-  def show
-    @category = Category.find params[:id]
-    @lesson = @category.lessons.sample
-    if @lesson.nil?
-      flash[:danger] = "System don't have lesson in category.
-      Please chose different category"
-      redirect_to categories_path
-    else
-      @words = @category.words.sample 20
-    end
-  end
 
   def index
+    @category = Category.find params[:category_id]
+    @lessons = @category.lessons.paginate page: params[:page]
   end
 
   def create
-    if params[:result]
-      @question_list = params[:result]
-      answer_ids = @question_list.values
-      @answers = Answer.show_result answer_ids
+    @category = Category.find params[:category_id]
+    @words = @category.words.sample 20
+    @lesson = Lesson.new user: current_user, category: @category, name: params[:name]
+    @words.shuffle.each do |word|
+      @lesson.results.build word: word
+    end
+    if @lesson.save
+      redirect_to category_lesson_path @category, @lesson
+    else
+      flash[:danger] = "Lesson has not been created"
+      redirect_to root_url
     end
   end
+
+  def show
+    @lesson = Lesson.find params[:id]
+  end  
+
+  def update
+    @lesson = Lesson.find params[:id]
+    if @lesson.update_attributes lesson_params
+      flash[:success] = "Finish lesson"
+      redirect_to lesson_results_path lesson_id: @lesson.id
+    else
+      redirect_to categories_path
+    end  
+  end  
+
+  private 
+  def lesson_params
+    params.require(:lesson).permit results_attributes: [:id, :answer_id]
+  end  
 end

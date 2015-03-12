@@ -1,0 +1,29 @@
+<% provide(:title, "Results") %>
+<div class="results">
+    <div class="result-info">
+      <h1>Category <%= @lesson.category.name %></h1>
+      <span><%= @lesson.name %></span>
+      <strong>Your result is <%= @lesson.count_correct_answer %> / 
+        <%= @lesson.results.count %></strong>
+    </div>
+    <div class="result-content">
+      <table>
+        <tr>
+          <th></th>
+          <th><span>Word</span></th>
+          <th><span>Your answer</span></th>
+          <th><span>Result</span></th>
+        <tr>  
+        <%= render @lesson.results %> 
+      </table>
+      <%= button_to "Back to all lessons", 
+        category_lessons_path(category_id: @lesson.category.id),
+            method: :get, class: "btn btn-primary" %>
+      <%= button_to "New lesson", 
+          category_lessons_path(category_id: @lesson.category.id, 
+            name: "Lesson #{@lesson.category.lessons.count + 1}"), method: :get, 
+            class: "btn btn-primary" %>  
+      <div class="clear"></div>   
+      <span>Go to <%= link_to "word lists", words_path(category_id: @lesson.category.id) %> to learn words</span>         
+    </div>  
+</div>

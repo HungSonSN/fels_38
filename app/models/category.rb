@@ -4,9 +4,15 @@ class Category < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness:
           {case_sensitive: false, message: "of category has already exist!"}
-  def learned_word?(user)
-    learned_word_ids = "SELECT word_id FROM learns WHERE user_id = :user_id"
-    Word.where("id IN (#{learned_word_ids}) AND category_id = :category_id", 
-                                        user_id: user.id, category_id: id)
+          
+  def learned_words user
+    user.lessons.select{|lesson| lesson.category == self}.
+      map(&:results).flatten.map(&:word).uniq
+  end
+
+  def words_not_learned_by user
+    Word.all.select{|lesson| lesson.category == self}.select do |word|
+      !user.learned_words.include? word
+    end
   end
 end

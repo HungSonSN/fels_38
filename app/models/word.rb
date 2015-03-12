@@ -10,10 +10,24 @@ class Word < ActiveRecord::Base
 
   accepts_nested_attributes_for :answers, allow_destroy: true
   validate :has_correct_answer
+  validate :do_not_duplicate_answer
+
+  def get_correct_answer
+    answers.each do |answer| 
+      if answer.correct?
+        return answer
+      end
+    end    
+  end
+
   private
   def has_correct_answer
     unless answers.any? {|answer| answer.correct?}
       errors.add(:base, "Word must have one correct answer!")
     end
+  end
+
+  def do_not_duplicate_answer
+    
   end
 end

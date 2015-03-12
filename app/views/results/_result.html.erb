@@ -1,0 +1,22 @@
+<tr>
+  <td>
+    <% if result.answer.nil? %>
+      <%= image_tag "false.png", alt: "false" %>
+    <% elsif !result.answer.nil? && result.answer.correct? %>
+      <%= image_tag "true.png", alt: "true" %>
+    <% else %>
+      <%= image_tag "false.png", alt: "false" %>
+    <% end %>
+  </td>
+  <td>
+    <span><%= result.word.content %></span>
+  </td>
+  <td>
+    <% unless result.answer.nil? %>
+      <span><%= result.answer.content %></span>
+    <% end %>
+  </td>  
+  <td>
+    <span><%= result.word.get_correct_answer.content %><span>
+  </td>  
+</tr>  
