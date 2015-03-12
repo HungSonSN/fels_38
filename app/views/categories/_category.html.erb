@@ -1,20 +1,19 @@
 <li id="category-<%= category.id %>">
   <div class="category-info">
-    <span><%= link_to category.name, controller: "words",
-                               action: "index",
-                               id: category.id %></span>
-    <p>You've learned <%= category.learned_word?(current_user).count %>/
+    <span><%= category.name %></span>
+    <p>You've learned <%= category.learned_words(current_user).count %>/
     <%= category.words.count %></p>
   </div>  
   <div class="link-to-lesson">
-    <%= button_to "Start", lesson_path(id: category.id), class: "btn,
-    btn-lg btn-primary", method: :get %>
+    <%= button_to "Start", category_lessons_path(category_id: category.id), 
+               class: "btn, btn-lg btn-primary", method: :get %>
   </div>
   <% if current_user.admin? %>
     <div class="manage-category">
       <%= link_to "Add word", new_category_word_path(category) %> |
       <%= link_to "Edit", edit_category_path(category) %> |
-      <%= link_to "Delete", category, method: :delete, data: {confirm: "You sure?"} %>
+      <%= link_to "Delete", category, method: :delete, 
+                            data: {confirm: "You sure?"} %>
     </div>
   <% end %>  
   <div class="clear"></div>  

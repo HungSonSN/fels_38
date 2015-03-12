@@ -402,3 +402,113 @@ span.picture {
     width:110px;
   }
 }
+
+.learning {
+  display: block !important;
+}
+
+.question {
+  display: none;
+  input {
+    width: 30px;
+  }
+}
+
+.results {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 10%;
+  div span {
+    margin-top: 20px;
+  }
+  .result-info {
+    text-align: center;
+    margin-top: 30px;
+    span {
+      font-size: 30px;
+    }
+    strong {
+      font-size: 20px;
+      margin-left: 30px;
+    }
+  }
+
+  .result-content {
+    margin-top: 20px;
+    table {
+      width: 100%;
+      tr {
+        margin-bottom: 30px;
+        border-bottom: 1px solid $gray-medium-light;
+        td {
+          width: 25%;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          text-align: center;
+          span {
+            font-size: 20px;
+          }
+        }
+        th {
+          width: 25%;
+          padding-top: 15px;
+          padding-bottom: 15px;
+          text-align: center;
+          span {
+            font-size: 25px;
+          }
+        }
+      }
+    }
+    input {
+      float: left;
+      margin-left: 25%;
+      margin-top: 20px;
+    }
+  }
+}
+
+.list_lessons {
+  margin-left: 20%;
+  table {
+    width: 100%;
+    td {
+      width: 30%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid $gray-medium-light;
+    }
+  }
+}
+
+.new_lesson {
+  margin-left: 40%;
+  margin-top: 20px;
+}
+
+.question_form {
+  margin-left: 30%;
+  margin-top: 20px;
+  margin-bottom: 10%;
+  p {
+    font-weight: bold;
+    font-size: 40px;
+  }
+  span {
+    margin-left: 50px;
+    padding-bottom: 30px;
+    margin-bottom: 20px;
+    font-size: 30px;
+  }
+  .radio_form {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    button {
+      margin-left: 50px;
+    }
+  }
+  button {
+    margin-left: 50px;
+  }
+}

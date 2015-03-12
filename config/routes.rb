@@ -13,10 +13,13 @@ Rails.application.routes.draw do
   resources :relationships,       only: [:create, :destroy]
   resources :categories, only: [:index]
   resources :words, only: [:index, :edit, :update, :destroy]
-  resources :lessons
-  resources :results
+  #resources :lessons
+  resources :lessons do
+    resources :results
+  end  
 
   resources :categories, only: [:new, :create, :edit, :update, :destroy] do
     resources :words, only: [:new, :create]
+    resources :lessons
   end  
 end

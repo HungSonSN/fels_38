@@ -1,57 +1,29 @@
-<% provide(:title, "Lesson") %>
-<h1><%= @lesson.name %></h1>
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= form_tag lessons_path(@lesson), method: :post do %>
-      <% @words.each_with_index do |word, index| %>
-        <div class="question" id='question_<%= index + 1 %>'>
-          <h1>question <%= index + 1 %>: <%= word.content %></h1>
-          <% word.answers.order('RANDOM()').each do |answer| %><br>
-            <li class="answer" data-count="<%= answer.correct %>">
-              <%= radio_button("result","#{word.id}", answer.id) %>
-              <%= answer.content %>
-            </li>
-          <% end %><br>
-          <button type="button" onclick="myFunction(<%= index + 1 %>)"
-          id="next-<%= index + 1 %>" class="next">Next</button>
-        </div>
+<% provide(:title, "Lession") %>
+<div class="question_form">
+  <%= form_for @lesson, :url => {action: "update"} do |f| %>
+    <% @lesson.results.each_with_index do |result, i| %>
+      <%= content_tag :div, class: i == 0 ? "question learning" : "question",
+        id: result.word.id do %>
+        <%= content_tag :p, "Question #{i+1} / #{@lesson.results.count}" %>
+        <span><%= result.word.content %></span>
+        <div class="radio_form">
+          <%= f.fields_for :results, result do |builder| %>
+            <% result.word.answers.shuffle.each do |answer| %>
+              <%= builder.radio_button :answer_id, answer.id %>
+              <%= label :answer_id, answer.content,
+                class: answer.correct ?
+                "correct" : "" %>
+              <br />
+            <% end %>
+          <% end %>
+      </div>
+        <% if i == 19 || i == @lesson.results.count - 1 %>
+          <%= button_tag "Submit", type: "submit", class: "btn btn-primary" %>
+        <% else %>
+          <%= button_tag "Next", type: "button", onclick: "display_question()", 
+                      class: "btn btn-primary" %>
+        <% end %>
       <% end %>
-      <%= submit_tag 'Show result', class: 'btn btn-primary' %>
     <% end %>
-  </div>
+  <% end %>
 </div>
-<script type="text/javascript">
-  var count_correct = 0;
-  $(document).ready(function()
-  {
-    $(".question").hide();
-    $(".question:first").show();
-    $(".row input.btn").hide();
-    $(".next").hide();
-  });
- 
-  $("li input").click(function(){
-    $(this).parent().children().removeClass("checked");
-    $(this).addClass("checked");
-    $(".next").show();
-  });
-
-  $(".next").click(function(){
-    $(".next").hide();
-  });
- 
-  $("#next-20").click(function()
-  {
-    count_correct = $('input.checked').parent('li[data-count="true"]').length;
-    $(".row input.btn").show();
-  });
-
-  function myFunction(id)
-  {
-    new_id = parseInt(id) + 1;
-    old_question_id = "question_" + id;
-    new_question_id = "question_" + new_id;
-    $("#" + old_question_id).hide();
-    $("#" + new_question_id).show();
-  }
-</script>

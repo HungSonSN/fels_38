@@ -2,15 +2,15 @@
 <div class="word_list">
   <%= form_tag(words_path, method: :get) do |f| %>
     <strong>Category:</strong>
-    <%= select_tag(:id, options_from_collection_for_select(
+    <%= select_tag(:category_id, options_from_collection_for_select(
               Category.all.collect, "id", "name"), 
                 prompt: "All", class: "form-control") %>
     Learned:
-    <%= radio_button_tag 'learned', '1', @learned == 1 %>
+    <%= radio_button_tag 'learned', '1' %>
     Not learned:
-    <%= radio_button_tag 'learned', '0', @learned == 0 %>
+    <%= radio_button_tag 'learned', '0' %>
     All:
-    <%= radio_button_tag 'learned', '-1', @learned == -1 %>
+    <%= radio_button_tag 'learned', '-1', checked: true %>
     <%= submit_tag "Filter", class: "btn btn-primary" %>
   <% end %>
 </div>
@@ -34,7 +34,7 @@
               <th>Action</th>
             <% end %>
           </tr>
-          <% @words_part1.each do |word| %>
+          <% @words.slice(0, 15).each do |word| %>
             <%= render word %>
           <% end %>  
         </table>
@@ -52,7 +52,7 @@
               <th>Action</th>
             <% end %>
           </tr>
-          <% @words_part2.each do |word| %>
+          <% (@words.length > 15 ? @words.slice(15, 15) : []).each do |word| %>
             <%= render word %>
           <% end %>
         </table>

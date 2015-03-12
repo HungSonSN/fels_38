@@ -35,3 +35,9 @@ function show_category_form() {
     document.getElementById('display-form').innerHTML = "Create new category";
   }
 }
+
+function display_question() {
+  var question_learning = $('div.learning');
+  question_learning.removeClass("learning");
+  question_learning.next().addClass("learning");
+}

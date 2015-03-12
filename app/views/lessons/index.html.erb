@@ -1,0 +1,35 @@
+<% provide(:title, "Lessons") %>
+<h1>All lessons in category <%= @category.name %></h1>
+<div class="list_lessons">
+  <% if @lessons.nil? %>
+    <span>You do not have any lesson in this category</span>
+  <% else %>
+    <table>
+      <tr>
+        <th><strong>Name</strong></th>
+        <th><strong>Result</strong></th>
+        <th><strong>Action</strong></th>
+      </tr>
+      <% @lessons.each do |lesson| %>
+        <tr>
+          <td><strong><%= lesson.name %></strong></td>
+          <td>
+            <%= lesson.count_correct_answer %> / 
+            <%= lesson.results.count %>
+          </td>
+          <td>
+            <%= button_to "Learn again", category_lesson_path(lesson.category, lesson), 
+                   method: :get, class: "btn btn-primary" %>
+          </td>  
+        </tr>  
+      <% end %>
+    </table>
+    <%= will_paginate %>  
+  <% end %>
+</div>
+<div class="new_lesson">  
+  <%= button_to "Start new lesson", 
+    category_lessons_path(category_id: @category.id, 
+      name: "Lesson #{@category.lessons.count + 1}"), 
+        class: "btn, btn-lg btn-primary" %>
+</div>  

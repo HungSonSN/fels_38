@@ -64,4 +64,14 @@ class User < ActiveRecord::Base
     following_ids = Relationship.select(:followed_id).where(follower_id: id)
     Lesson.where user_id: following_ids
   end
+
+  def learned_words
+    lessons.map(&:results).flatten.map(&:word).uniq
+  end
+
+  def not_learned_words
+    Word.all.select do |word|
+      !learned_words.include? word
+    end
+  end
 end
